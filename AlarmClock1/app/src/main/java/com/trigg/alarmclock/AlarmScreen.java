@@ -61,9 +61,9 @@ public class AlarmScreen extends Activity implements SensorEventListener{
 		dismissButton.setOnTouchListener(myTouchListener);
 
 		/*======================================================================================================*/
-		mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		mySensorManager.registerListener(this, mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST);
-		mySensorManager.registerListener(this, mySensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_FASTEST);
+
+		//INIT SENSORS
+
 		/*======================================================================================================*/
 
 		//Play alarm tone
@@ -105,109 +105,15 @@ public class AlarmScreen extends Activity implements SensorEventListener{
 
 	/*======================================================================================================*/
 
-    View.OnTouchListener myTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            Button dismissButton;
-            switch (motionEvent.getActionMasked()) {
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    dismissButton = (Button) findViewById(R.id.alarm_screen_button);
-                    dismissButton.setTextColor(Color.GREEN);
-                    pressing = true;
-                    return true;
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_POINTER_UP:
-                    dismissButton = (Button) findViewById(R.id.alarm_screen_button);
-                    dismissButton.setTextColor(Color.BLACK);
-                    pressing = false;
-                    start_degree = -1;
-                    resetDegrees();
-                    return true;
+    //BUTTON SET ONTOUCHLISTENER
 
-            }
-            return true;
+	//SENSORS ONSACCURACYCHANGED
+	//SENSORS ONSENSORCHANGED
+	
+	//SET DEGREES VISITED
 
-        }
-    };
+    //RESET DEGREES VISITED 
 
-
-	@Override
-	public void onAccuracyChanged(Sensor arg0, int arg1) {
-	}
-
-
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-
-		Sensor sensor = event.sensor;
-
-        //SO DETETAR SE TIVER A USAR OS DOIS DEDOS
-        if(!pressing)
-            return;
-
-        //OBTER VALOR DA ACELERACAO NO EIXO Z
-        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-		{
-			gravity = Math.round(event.values[2]);
-		}
-
-		if (sensor.getType() == Sensor.TYPE_ORIENTATION)
-		{
-            //OBTER VALOR DO GRAU DE ORIENTACAO (0..360)
-            degree = Math.round(event.values[0]);
-
-            //DEFINIR ANGLULO INICIAL
-            if(start_degree == -1) {
-                start_degree = Math.round(event.values[0]);
-                System.out.println("start_degree:" +start_degree);
-            }
-
-            //SE DEVICE ESTIVER TORTO
-            if(gravity < 9) {
-                start_degree = Math.round(event.values[0]);
-                resetDegrees();
-                System.out.println("telemovel torto");
-                System.out.println("start_degree:" +start_degree);
-            }
-
-		}
-
-        //POR FIM VERIFICAR SE JA PASSOU POR TODOS OS DEGREES (DE 30 EM 30 POR EXEMPLO)
-        if( Math.abs((degree % 30) - (start_degree%30)) < margin ){
-            //System.out.println("30!!!");
-            if(!addDegree(degree)){
-                Button dismissButton = (Button) findViewById(R.id.alarm_screen_button);
-                dismissButton.setText("BOM DIA");
-                mPlayer.stop();
-            }
-
-        }
-
-	}
-
-
-    private boolean addDegree(int degree){
-
-        int i=0;
-        while(i < 12){
-            if(degrees[i] == 0) {
-                degrees[i] = degree;
-                return true;
-            }
-            else if(Math.abs(degrees[i] - degree) < margin){
-                return true;
-            }
-
-            i++;
-        }
-
-        return false;
-    }
-
-
-    private void resetDegrees(){
-        for (int i = 0; i < 12; i++) {degrees[i]=0;}
-    }
 	/*======================================================================================================*/
 
 	@SuppressWarnings("deprecation")
