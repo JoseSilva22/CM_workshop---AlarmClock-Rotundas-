@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_add_new_alarm"
+        android:orderInCategory="100"
+        android:icon="@drawable/action_bar_add"
+        android:showAsAction="always"/>
+
+</menu>
+<!-- From: file:/home/ze/AndroidStudioProjects/AlarmClock1/app/src/main/res/menu/alarm_list.xml -->
