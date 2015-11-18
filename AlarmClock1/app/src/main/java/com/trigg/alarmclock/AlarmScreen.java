@@ -20,6 +20,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+@SuppressWarnings("deprecation")
+
+
 
 public class AlarmScreen extends Activity implements SensorEventListener{
 	
@@ -116,7 +119,7 @@ public class AlarmScreen extends Activity implements SensorEventListener{
 
 	/*======================================================================================================*/
 
-	@SuppressWarnings("deprecation")
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
